@@ -1,18 +1,51 @@
 {
-  "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=7.0.0"
-  },
-  "name": "token",
+  "name": "faucet_assets",
+  "version": "0.2.0",
+  "description": "Internet Computer frontend (2025 update)",
+  "keywords": [
+    "Internet Computer",
+    "Motoko",
+    "React",
+    "Canister"
+  ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "prebuild": "npm run prebuild --workspaces --if-present",
-    "pretest": "npm run prebuild --workspaces --if-present",
-    "start": "npm start --workspaces --if-present",
-    "test": "npm test --workspaces --if-present"
+    "build": "webpack --mode production",
+    "start": "webpack serve --mode development --env development",
+    "prebuild": "npm run copy:types",
+    "prestart": "npm run copy:types",
+    "copy:types": "rsync -avr .dfx/$(echo ${DFX_NETWORK:-'local'})/canisters/** --exclude='assets/' --exclude='idl/' --exclude='*.wasm' --delete src/declarations"
   },
-  "type": "module",
-  "workspaces": [
-    "src/token_frontend"
+  "dependencies": {
+    "@dfinity/agent": "^0.20.1",
+    "@dfinity/auth-client": "^0.20.1",
+    "@dfinity/identity": "^0.20.1",
+    "@mui/material": "^5.15.0",
+    "@mui/icons-material": "^5.15.0",
+    "lit-html": "^2.7.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "assert": "^2.0.0",
+    "buffer": "^6.0.3",
+    "copy-webpack-plugin": "^12.0.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "style-loader": "^3.3.4",
+    "terser-webpack-plugin": "^5.3.9",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.4.5",
+    "util": "^0.12.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "browserslist": [
+    "last 2 chrome versions",
+    "last 2 firefox versions",
+    "last 2 safari versions",
+    "last 2 edge versions"
   ]
 }
