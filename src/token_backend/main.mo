@@ -31,4 +31,29 @@ actor Token {
   // gives all of the tokens to the owner
   balances.put(owner, totalSupply);
 
+  // function that finds out how many tokens the specified user (who parameter) owns
+  /// Returns the token balance for a given user (Principal).
+  ///
+  /// Parameters:
+  /// - `who: Principal` — The Principal (user ID) whose token balance is being queried.
+  ///
+  /// Behavior:
+  /// - This is a **query** function, meaning it is read-only and does **not** modify any state on the canister.
+  /// - It attempts to retrieve the user's balance from the `balances` HashMap.
+  ///   - If the Principal does not exist in the map (i.e., `null` is returned), it defaults to 0.
+  ///   - If a balance is found (`?result`), it returns the unwrapped Nat value.
+  ///
+  /// Returns:
+  /// - `Nat` — The number of tokens owned by the provided Principal.
+  ///
+  public query func balanceOf(who : Principal) : async Nat {
+
+    let balance : Nat = switch (balances.get(who)) {
+      case null 0;
+      case (?result) result;
+    };
+
+    return balance;
+  }
+
 };
