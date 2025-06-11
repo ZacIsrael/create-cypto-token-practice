@@ -17,6 +17,11 @@ function Balance() {
   // Declare a state variable to hold the symbol of the crypto token
   const [cryptoSymbol, setSymbol] = useState("");
 
+  // Declare a state variable that determines whether or not the message that comes 
+  // before the balance will be displayed or not. This message should only be displayed 
+  // if an account's balance has been pulled.
+  const [isHidden, setHidden] = useState(true);
+
 
 
   // Define an asynchronous function to handle the button click
@@ -32,6 +37,9 @@ function Balance() {
 
     // retrieves the symbol of the crypto token
     setSymbol(await token_backend.getSymbol());
+
+    // the message that comes before the account balance will no longer be hidden
+    setHidden(false);
   }
 
   // Return the UI elements for the Balance component
@@ -55,7 +63,7 @@ function Balance() {
         </button>
       </p>
       {/* Display the fetched token balance */}
-      <p>This account has a balance of {balanceResult} {cryptoSymbol}.</p>
+      <p hidden={isHidden}>This account has a balance of {balanceResult} {cryptoSymbol}.</p>
     </div>
   );
 }
