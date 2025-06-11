@@ -14,6 +14,11 @@ function Balance() {
   // Declare a state variable to hold the resulting balance
   const [balanceResult, setBalance] = useState("");
 
+  // Declare a state variable to hold the symbol of the crypto token
+  const [cryptoSymbol, setSymbol] = useState("");
+
+
+
   // Define an asynchronous function to handle the button click
   async function handleClick() {
     // Convert the text input into a Principal object
@@ -24,6 +29,9 @@ function Balance() {
 
     // Format the balance as a localized string and update the state
     setBalance(balance.toLocaleString());
+
+    // retrieves the symbol of the crypto token
+    setSymbol(await token_backend.getSymbol());
   }
 
   // Return the UI elements for the Balance component
@@ -47,7 +55,7 @@ function Balance() {
         </button>
       </p>
       {/* Display the fetched token balance */}
-      <p>This account has a balance of {balanceResult}</p>
+      <p>This account has a balance of {balanceResult} {cryptoSymbol}.</p>
     </div>
   );
 }
