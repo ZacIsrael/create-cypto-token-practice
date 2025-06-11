@@ -54,6 +54,11 @@ actor Token {
     };
 
     return balance;
-  }
+  };
+
+  // returns the symbol of the token
+  public query func getSymbol() : async Text {
+    return symbol;
+  };
 
 };
