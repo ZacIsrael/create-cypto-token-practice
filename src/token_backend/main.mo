@@ -61,4 +61,13 @@ actor Token {
     return symbol;
   };
 
+  // This function is shared, meaning it can be called externally (e.g., by another canister or a user).
+  // The (msg) argument gives access to metadata about the caller and call context,
+  // including who called the function (msg.caller), which is useful for authentication or logging.
+  // This function (payOut()) in particular would typically be used after a user has received their tokens successfully.
+  public shared (msg) func payOut() : async Text {
+    Debug.print(debug_show(msg.caller));
+    return "success";
+  };
+
 };
