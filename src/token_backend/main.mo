@@ -70,22 +70,49 @@ actor Token {
     Debug.print(debug_show (msg.caller));
 
     // the user does not exist in gthe hashmap, so give them 10,000 tokens
-    if(balances.get(msg.caller) == null) {
+    if (balances.get(msg.caller) == null) {
       // Define the amount of tokens to assign. In this case, it’s hardcoded to 10,000.
-    let amount = 10000;
+      let amount = 10000;
 
-    // This line updates the `balances` HashMap, setting the caller's balance to the defined amount.
-    // `balances.put(key, value)` associates the caller's Principal ID with the token amount.
-    balances.put(msg.caller, amount);
+      // This line updates the `balances` HashMap, setting the caller's balance to the defined amount.
+      // `balances.put(key, value)` associates the caller's Principal ID with the token amount.
+      balances.put(msg.caller, amount);
 
-    // Returns a confirmation message as a string.
-    return "Success";
-      
+      // Returns a confirmation message as a string.
+      return "Success";
+
     } else {
       return "Already Claimed Tokens";
     };
 
-    
+  };
+
+  // "to" parameter refers to the Principal of the account that the tokens are getting transfered to
+  // "amount" parameter refers to how much is getting transfered
+  public shared (msg) func transfer(to : Principal, amount : Nat) : async Text {
+    // msg.caller contains the Principal id of the account that is sending the $
+
+    // retrieve the balance of the front end user that wants to transfer money from their account
+    let fromBalance = await balanceOf(msg.caller);
+
+    if (fromBalance > amount) {
+      // transfer the money to the "to" account
+
+      // update the frontend user's balance (tokens have been withdrawn)
+      let newFromBalance : Nat = fromBalance - amount;
+      balances.put(msg.caller, newFromBalance);
+
+      // update the balance for the account that the tokens are getting transferred to
+      let oldToBalance : Nat = await balanceOf(to);
+      let newToBalance : Nat = amount + oldToBalance;
+      balances.put(to, newToBalance);
+
+      return "Success.";
+    } else {
+      // transfer fails; can't transfer money that you don't have lol
+      return "Insufficient funds.";
+
+    };
   };
 
 };
