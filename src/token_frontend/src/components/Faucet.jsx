@@ -5,12 +5,18 @@ function Faucet() {
   // determines whether or not the button is disabled or not
   const [isDisabled, setDisabled] = useState(false);
 
+  // determines what the text in the button will be
+  const [buttonText, setButtonText] = useState("Gimme gimme");
+
   async function handleClick(event) {
     // Disable the button so the user can't click it once they have
     // already clicked it. 
     setDisabled(true);
-    await token_backend.payOut();
-    // setDisabled(false)
+    // payOut returns "Success" or "Already Claimed Tokens" (see main.mo)
+    const result = await token_backend.payOut();
+    // set the button's text to what was returned from payOut()
+    setButtonText(result);
+   
   }
 
   return (
@@ -27,7 +33,7 @@ function Faucet() {
       </label>
       <p className="trade-buttons">
         <button id="btn-payout" onClick={handleClick} disabled={isDisabled}>
-          Gimme gimme
+          {buttonText}
         </button>
       </p>
     </div>
