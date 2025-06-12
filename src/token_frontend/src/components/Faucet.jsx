@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { token_backend } from "../../../declarations/token_backend";
 
 function Faucet() {
+  // determines whether or not the button is disabled or not
+  const [isDisabled, setDisabled] = useState(false);
+
   async function handleClick(event) {
+    // Disable the button so the user can't click it once they have
+    // already clicked it. 
+    setDisabled(true);
     await token_backend.payOut();
+    // setDisabled(false)
   }
 
   return (
@@ -19,7 +26,7 @@ function Faucet() {
         account.
       </label>
       <p className="trade-buttons">
-        <button id="btn-payout" onClick={handleClick}>
+        <button id="btn-payout" onClick={handleClick} disabled={isDisabled}>
           Gimme gimme
         </button>
       </p>
