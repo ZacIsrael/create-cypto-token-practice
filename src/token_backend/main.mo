@@ -69,7 +69,9 @@ actor Token {
     // msg.caller would return the principal id of the user
     Debug.print(debug_show (msg.caller));
 
-    // Define the amount of tokens to assign. In this case, it’s hardcoded to 10,000.
+    // the user does not exist in gthe hashmap, so give them 10,000 tokens
+    if(balances.get(msg.caller) == null) {
+      // Define the amount of tokens to assign. In this case, it’s hardcoded to 10,000.
     let amount = 10000;
 
     // This line updates the `balances` HashMap, setting the caller's balance to the defined amount.
@@ -78,6 +80,12 @@ actor Token {
 
     // Returns a confirmation message as a string.
     return "Success";
+      
+    } else {
+      return "Already Claimed Tokens";
+    };
+
+    
   };
 
 };
