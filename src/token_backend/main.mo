@@ -66,8 +66,9 @@ actor Token {
   // including who called the function (msg.caller), which is useful for authentication or logging.
   // This function (payOut()) in particular would typically be used after a user has received their tokens successfully.
   public shared (msg) func payOut() : async Text {
+    // msg.caller would return the principal id of the user
     Debug.print(debug_show(msg.caller));
-    return "success";
+    return "Success";
   };
 
 };
