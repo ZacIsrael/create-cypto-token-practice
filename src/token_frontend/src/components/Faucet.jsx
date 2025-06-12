@@ -1,7 +1,10 @@
 import React from "react";
+import { token_backend } from "../../../declarations/token_backend";
 
 function Faucet() {
-  async function handleClick(event) {}
+  async function handleClick(event) {
+    await token_backend.payOut();
+  }
 
   return (
     <div className="blue window">
