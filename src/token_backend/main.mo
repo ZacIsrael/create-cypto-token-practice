@@ -67,7 +67,16 @@ actor Token {
   // This function (payOut()) in particular would typically be used after a user has received their tokens successfully.
   public shared (msg) func payOut() : async Text {
     // msg.caller would return the principal id of the user
-    Debug.print(debug_show(msg.caller));
+    Debug.print(debug_show (msg.caller));
+
+    // Define the amount of tokens to assign. In this case, it’s hardcoded to 10,000.
+    let amount = 10000;
+
+    // This line updates the `balances` HashMap, setting the caller's balance to the defined amount.
+    // `balances.put(key, value)` associates the caller's Principal ID with the token amount.
+    balances.put(msg.caller, amount);
+
+    // Returns a confirmation message as a string.
     return "Success";
   };
 
